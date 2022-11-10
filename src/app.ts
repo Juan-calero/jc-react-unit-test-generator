@@ -6,9 +6,6 @@ import vscode from "vscode";
 export type AppType = (pathname: string) => void;
 
 export const app: AppType = (pathname) => {
-  /*   const consolePrompt = ps();
-  let pathnames: string = consolePrompt("Enter Pathname: ") || ""; */
-
   let errorMessages: [string, string][] = [];
 
   /*  pathnames.split("\r").forEach((pathname) => { */
