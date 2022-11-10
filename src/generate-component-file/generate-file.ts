@@ -1,4 +1,5 @@
 import fs from "fs";
+import * as vscode from "vscode";
 
 import { componentTemplate } from "../templates/component-template.js";
 import {
@@ -13,7 +14,6 @@ import {
   SUCCESS_MESSAGE,
 } from "../constants";
 
-import { dim } from "chalk";
 import { generateMockedImports } from "./get-mocked-imports.js";
 import { convertIntoPascalCase } from "../utils/convert-into-pascal-case.js";
 
@@ -35,6 +35,7 @@ export const generateFile: GenerateFileType = (
 
   const componentProps = getExportedComponentProps(statements);
   if (componentProps === "error") {
+    vscode.window.showErrorMessage(SINGLE_EXPORT_ERROR);
     errorMessages.push([SINGLE_EXPORT_ERROR, pathname]);
     return;
   }
@@ -60,11 +61,11 @@ export const generateFile: GenerateFileType = (
   if (newFile)
     fs.writeFile(testFilePath, newFile, { flag: "wx" }, (error) => {
       if (error?.errno === -17) {
-        console.log(FILE_EXISTS_ERROR + dim(testFilePath));
+        vscode.window.showErrorMessage(FILE_EXISTS_ERROR);
       } else if (error) {
-        throw error;
+        vscode.window.showErrorMessage(error?.message);
       } else {
-        console.log(SUCCESS_MESSAGE + testFilePath);
+        vscode.window.showInformationMessage(SUCCESS_MESSAGE);
       }
     });
 };

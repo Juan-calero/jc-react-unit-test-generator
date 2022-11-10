@@ -8,7 +8,7 @@ export const getFilePath: GetFilePathType = (pathname) => {
   if (!splitPathName[1]) return { testFilePath: "", path: "" };
 
   return {
-    testFilePath: `./${splitPathName[0]}.test.tsx`,
+    testFilePath: `${splitPathName[0]}.test.tsx`,
     path: splitPathName[0].split("/").pop() ?? splitPathName[0],
   };
 };

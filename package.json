@@ -10,7 +10,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:jc-react-unit-test-generator.helloWorld"
+    "onCommand:jcUnitTestGenerator.generateTests"
   ],
   "main": "lib/extension.js",
   "esnext": "lib/extension.js",
@@ -26,7 +26,7 @@
     "menus": {
       "explorer/context": [
         {
-          "when": "resourceLangId == typescript || resourceLangId == typescriptreact",
+          "when": "resourceFilename =~ /.*(?<!(test|spec))(\\.tsx|\\.ts)$/g",
           "command": "jcUnitTestGenerator.generateTests",
           "group": "5_cutcopypaste"
         }
