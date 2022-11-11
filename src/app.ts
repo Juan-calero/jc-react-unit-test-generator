@@ -6,9 +6,6 @@ import vscode from "vscode";
 export type AppType = (pathname: string) => void;
 
 export const app: AppType = (pathname) => {
-  let errorMessages: [string, string][] = [];
-
-  /*  pathnames.split("\r").forEach((pathname) => { */
   // skip folder pathnames
   if (!pathname.includes(".")) return;
 
@@ -23,19 +20,15 @@ export const app: AppType = (pathname) => {
   const matchedFiles = pathname.match(/(\.tsx|\.ts)$/i);
 
   if (!matchedFiles) {
-    errorMessages.push([INVALID_PATHNAME_ERROR, pathname]);
+    vscode.window.showErrorMessage(INVALID_PATHNAME_ERROR);
     return;
   }
 
-  fs.readFile(pathname, (error, content) => {
-    if (error) throw error;
-
+  try {
+    const data = fs.readFileSync(pathname, "utf-8");
     const fileType = pathname.match(/\/use/gi) ? "hook" : "component";
-    generateFile(pathname, content, errorMessages, fileType);
-  });
-  /* }); */
-
-  errorMessages.forEach(([errorMessage, pathname]) =>
-    vscode.window.showErrorMessage(errorMessage + pathname)
-  );
+    generateFile(pathname, data, fileType);
+  } catch (err) {
+    throw err;
+  }
 };

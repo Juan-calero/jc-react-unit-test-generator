@@ -19,24 +19,17 @@ import { convertIntoPascalCase } from "../utils/convert-into-pascal-case.js";
 
 export type GenerateFileType = (
   pathname: string,
-  content: Buffer,
-  errorMessages: [string, string][],
+  content: string,
   type: "hook" | "component"
 ) => void;
 
-export const generateFile: GenerateFileType = (
-  pathname,
-  content,
-  errorMessages,
-  type
-) => {
-  const statements = getStatements(content.toString());
+export const generateFile: GenerateFileType = (pathname, content, type) => {
+  const statements = getStatements(content);
   const { testFilePath, path } = getFilePath(pathname);
 
   const componentProps = getExportedComponentProps(statements);
   if (componentProps === "error") {
     vscode.window.showErrorMessage(SINGLE_EXPORT_ERROR);
-    errorMessages.push([SINGLE_EXPORT_ERROR, pathname]);
     return;
   }
 
