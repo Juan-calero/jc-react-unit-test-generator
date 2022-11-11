@@ -8,7 +8,7 @@
     "url": "https://github.com/Juan-calero/jc-react-unit-test-generator"
   },
   "description": "Extension that reads React TypeScript files and generates boilerplate unit tests in same directory",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.73.0"
   },
@@ -18,7 +18,7 @@
   "activationEvents": [
     "onCommand:jcUnitTestGenerator.generateTests"
   ],
-  "icon": "./src/logo/JCLOGO.png",
+  "icon": "src/logo/JCLOGO.png",
   "main": "lib/extension.js",
   "esnext": "lib/extension.js",
   "types": "./lib/extension.d.ts",
