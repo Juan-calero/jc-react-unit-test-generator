@@ -8,7 +8,7 @@
     "url": "https://github.com/Juan-calero/jc-react-unit-test-generator"
   },
   "description": "Extension that reads React TypeScript files and generates boilerplate unit tests in same directory",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "engines": {
     "vscode": "^1.73.0"
   },
