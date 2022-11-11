@@ -18,6 +18,7 @@
   "activationEvents": [
     "onCommand:jcUnitTestGenerator.generateTests"
   ],
+  "icon": "./src/logo/JCLOGO.png",
   "main": "lib/extension.js",
   "esnext": "lib/extension.js",
   "types": "./lib/extension.d.ts",

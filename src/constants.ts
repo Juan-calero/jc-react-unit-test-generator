@@ -8,7 +8,4 @@ export const INVALID_PATHNAME_ERROR =
 
 export const SUCCESS_MESSAGE = "Unit Test File(s) Generated";
 
-export const UNMOCKABLE_IMPORTS = new Set([
-  "@xingternal/tokens",
-  "@xingternal/icons",
-]);
+export const UNMOCKABLE_IMPORTS = ["tokens", "icons"];

@@ -2,76 +2,45 @@
 
 JC Unit test generator is a simple plugin that reads react files and generates jest unit test boilerplate files.
 
+## Usage
+
+1. After installation, right-click on a folder, or on a .ts/.tsx file.
+2. Click on the option "JC: Generate Unit Tests".
+3. Enjoy your newly generated unit test.
+
 Works on:
 
 - TS and TSX React Hooks
 - TS and TSX React Components
 - Folders that contain these types of files
 
-## Features
+## (Important) Best Practices
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+This file must obey **certain conventions** in order for the generator to work:
 
-For example if there is an image subfolder under your extension project workspace:
+1. File Name:
 
-\!\[feature X\]\(images/feature-x.png\)
+- File name must be in kebab case (example: `my-beautiful-component.tsx`)
+- In order to generate a React Hook template, file name must start with 'use' (example: `use-my-beautiful-hook.tsx`)
+- Generator skips index files (`index.ts`, `index.tsx`, ...), style files (`.styles.` and `.style.` files'), and test files (`.test.` files, `.spec.` files, and any file inside `__test__` or `__spec__`)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+2. File Contents:
 
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-- `myExtension.enable`: Enable/disable this extension.
-- `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+- File must only contain 1 named export (excluding type exports, example: `export const MyBeatifulComponent`)
+- The generator automatically skips mocking `SCREAMING_SNAKE_CASE`, `tokens` and `icon` imports, as it considers them to not require mocking.
 
 ---
 
-## Following extension guidelines
+## Known Issues
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+- Generating Unit Tests on Folders with more than 3 files will not display the vscode info/error message.
 
-- [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+## Release Notes
 
-## Working with Markdown
+### 0.0.1
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+Initial release 🚀
 
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-- Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-- Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+### 0.0.3
 
-## For more information
-
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Added documentation and added a logo.

@@ -27,7 +27,12 @@ export const generateMockedImports: GenerateMockedImportsType = (
     const packageName =
       entry.match(/('|").*('|")/gm)?.[0].replace(/('|")/g, "") || "";
 
-    if (!UNMOCKABLE_IMPORTS.has(packageName) && importedComponents?.[0])
+    if (
+      !UNMOCKABLE_IMPORTS.some((unmockable_import) =>
+        packageName.includes(unmockable_import)
+      ) &&
+      importedComponents?.[0]
+    )
       mappedImports.push([packageName, importedComponents]);
   });
 
@@ -51,7 +56,7 @@ export const generateMockedImports: GenerateMockedImportsType = (
         ""
       );
 
-      return `${mockedComponents}\njest.mock("${key}", () => ({${jestMock}\n}));`;
+      return `${mockedComponents}\njest.mock('${key}', () => ({${jestMock}\n}));`;
     })
     .join("\n");
   return { mockedImports, firstImportName: mappedImports[0]?.[1]?.[0] || "" };
