@@ -1,6 +1,12 @@
 # jc-react-unit-test-generator README
 
-This is the README for your extension "jc-react-unit-test-generator". After writing up a brief description, we recommend including the following sections.
+JC Unit test generator is a simple plugin that reads react files and generates jest unit test boilerplate files.
+
+Works on:
+
+- TS and TSX React Hooks
+- TS and TSX React Components
+- Folders that contain these types of files
 
 ## Features
 

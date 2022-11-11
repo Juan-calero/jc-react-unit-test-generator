@@ -11,7 +11,7 @@ export const hookTemplate: TemplateType = ({
 
   return `import { renderHook, RenderHookResult } from '@testing-library/react-hooks';
 
-import type { ${componentName}Type } from "./${path}";
+import type { ${componentName}Type } from './${path}';
 ${mockedImports}
 
 const DEFAULT_PROPS: Parameters<${componentName}Type>[0] = {${props
@@ -21,7 +21,7 @@ const DEFAULT_PROPS: Parameters<${componentName}Type>[0] = {${props
     .join("")}
 };
 
-describe("${componentName}", () => {
+describe('${componentName}', () => {
   let triggerHook: (
     props?: Partial<Parameters<${componentName}Type>[0]>
   ) => RenderHookResult<
@@ -30,7 +30,7 @@ describe("${componentName}", () => {
   >;
 
   beforeEach(async () => {
-    const { ${hookName} } = await import("./${path}");
+    const { ${hookName} } = await import('./${path}');
     triggerHook = (props) =>
       renderHook(() => ${hookName}({ ...DEFAULT_PROPS, ...props }));
   });
@@ -39,8 +39,8 @@ describe("${componentName}", () => {
 
   it.each\`
     callback      | mockCallback    | expectedResult
-    \${"${firstImportName}"} | \${mock${firstImportName}} | \${{}}
-  \`("$callback", ({ mockCallback, expectedResult }) => {
+    \${'${firstImportName}'} | \${mock${firstImportName}} | \${{}}
+  \`('$callback', ({ mockCallback, expectedResult }) => {
     triggerHook();
     expect(mockCallback).toBeCalledTimes(1);
     expect(mockCallback).toBeCalledWith(expectedResult);

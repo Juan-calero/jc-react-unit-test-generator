@@ -1,6 +1,12 @@
 {
   "name": "jc-react-unit-test-generator",
   "displayName": "JCUnitTestGenerator",
+  "publisher": "JuanCaleroProjects",
+  "repository": {
+    "directory": "https://github.com/Juan-calero/jc-react-unit-test-generator.git",
+    "type": "git",
+    "url": "https://github.com/Juan-calero/jc-react-unit-test-generator"
+  },
   "description": "Extension that reads React TypeScript files and generates boilerplate unit tests in same directory",
   "version": "0.0.1",
   "engines": {

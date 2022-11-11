@@ -12,11 +12,11 @@ export const componentTemplate: TemplateType = ({
   props,
   mockedImports,
   firstImportName,
-}) => `import React from "react";
-import { render } from "@testing-library/react";
-import type { RenderResult } from "@testing-library/react";
+}) => `import React from 'react';
+import { render } from '@testing-library/react';
+import type { RenderResult } from '@testing-library/react';
 
-import type { ${componentName}Type } from "./${path}";
+import type { ${componentName}Type } from './${path}';
 ${mockedImports}
 
 const DEFAULT_PROPS: ${componentName}Type = {${props
@@ -26,11 +26,11 @@ const DEFAULT_PROPS: ${componentName}Type = {${props
   .join("")}
 };
 
-describe("${componentName}", () => {
+describe('${componentName}', () => {
   let renderComponent: (props?: Partial<${componentName}Type>) => RenderResult;
 
   beforeEach(async () => {
-    const { ${componentName} } = await import("./${path}");
+    const { ${componentName} } = await import('./${path}');
     renderComponent = (props) =>
       render(<${componentName} {...DEFAULT_PROPS} {...props} />);
   });
@@ -39,9 +39,9 @@ describe("${componentName}", () => {
 
   describe.each\`
     component      | mockComponent    | expectedProps
-    \${"${firstImportName}"} | \${mock${firstImportName}} | \${{}}
-  \`("$component", ({ mockComponent, expectedProps }) => {
-    it("renders with correct params", () => {
+    \${'${firstImportName}'} | \${mock${firstImportName}} | \${{}}
+  \`('$component', ({ mockComponent, expectedProps }) => {
+    it('renders with correct params', () => {
       renderComponent();
       expect(mockComponent).toBeCalledTimes(1);
       expect(mockComponent).toBeCalledWith(expectedProps, {});
