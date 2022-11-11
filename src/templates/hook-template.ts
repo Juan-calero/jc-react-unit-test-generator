@@ -8,6 +8,8 @@ export const hookTemplate: TemplateType = ({
   props,
 }) => {
   const hookName = componentName.replace(/^[A-Z]/, (x) => x.toLowerCase());
+  const itArg1Spacing = " ".repeat(firstImportName.length - 2);
+  const itArg2Spacing = " ".repeat(firstImportName.length - 4);
 
   return `import { renderHook, RenderHookResult } from '@testing-library/react-hooks';
 
@@ -38,7 +40,7 @@ describe('${componentName}', () => {
   afterEach(jest.clearAllMocks);
 
   it.each\`
-    callback      | mockCallback    | expectedResult
+    callback${itArg1Spacing}| mockCallback${itArg2Spacing}| expectedResult
     \${'${firstImportName}'} | \${mock${firstImportName}} | \${{}}
   \`('$callback', ({ mockCallback, expectedResult }) => {
     triggerHook();

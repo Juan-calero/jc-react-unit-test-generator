@@ -14,7 +14,7 @@ export const getExportedComponentProps: GetExportedComponentPropsType = (
   return (
     componentExport[0]
       .match(/\({.*}\) =>/)?.[0]
-      .replace(/\({|}\)| |=[^,]*/g, "")
+      .replace(/\({|}\)| |=[^,]*|: [A-Za-z][^,]*/g, "")
       .split(",")
       .filter(Boolean) ?? []
   );

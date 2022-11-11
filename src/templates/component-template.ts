@@ -12,7 +12,11 @@ export const componentTemplate: TemplateType = ({
   props,
   mockedImports,
   firstImportName,
-}) => `import React from 'react';
+}) => {
+  const describeArg1Spacing = " ".repeat(firstImportName.length - 3);
+  const describeArg2Spacing = " ".repeat(firstImportName.length - 5);
+
+  return `import React from 'react';
 import { render } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 
@@ -20,10 +24,10 @@ import type { ${componentName}Type } from './${path}';
 ${mockedImports}
 
 const DEFAULT_PROPS: ${componentName}Type = {${props
-  .map((prop) =>
-    prop.includes("}") ? `\n  ${prop},` : `\n  ${prop}: undefined,`
-  )
-  .join("")}
+    .map((prop) =>
+      prop.includes("}") ? `\n  ${prop},` : `\n  ${prop}: undefined,`
+    )
+    .join("")}
 };
 
 describe('${componentName}', () => {
@@ -38,7 +42,7 @@ describe('${componentName}', () => {
   afterEach(jest.clearAllMocks);
 
   describe.each\`
-    component      | mockComponent    | expectedProps
+    component${describeArg1Spacing}| mockComponent${describeArg2Spacing}| expectedProps
     \${'${firstImportName}'} | \${mock${firstImportName}} | \${{}}
   \`('$component', ({ mockComponent, expectedProps }) => {
     it('renders with correct params', () => {
@@ -49,3 +53,4 @@ describe('${componentName}', () => {
   });
 });
 `;
+};
