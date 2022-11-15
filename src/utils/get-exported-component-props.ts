@@ -13,8 +13,13 @@ export const getExportedComponentProps: GetExportedComponentPropsType = (
 
   return (
     componentExport[0]
-      .match(/\({.*}\) =>/)?.[0]
-      .replace(/\({|}\)| |=[^,]*|: [A-Za-z][^,]*/g, "")
+      // Get the props from the component
+      .match(/\({.*}\) => /)?.[0]
+      // Remove spread, default and renamed props
+      .replace(/\({|}\)| |=[^,]*|: [A-Za-z][^,]*|\.\.\.[^,]*/g, "")
+      // Formatting Object destructuring
+      .replace(/:{/g, ": {,")
+      .replace(/}/g, ",}")
       .split(",")
       .filter(Boolean) ?? []
   );

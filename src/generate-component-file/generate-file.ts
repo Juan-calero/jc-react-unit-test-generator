@@ -1,5 +1,4 @@
 import fs from "fs";
-import * as vscode from "vscode";
 
 import { componentTemplate } from "../templates/component-template.js";
 import {
@@ -8,11 +7,6 @@ import {
   getStatements,
 } from "../utils";
 import { hookTemplate } from "../templates/hook-template.js";
-import {
-  SINGLE_EXPORT_ERROR,
-  FILE_EXISTS_ERROR,
-  SUCCESS_MESSAGE,
-} from "../constants";
 
 import { generateMockedImports } from "./get-mocked-imports.js";
 import { convertIntoPascalCase } from "../utils/convert-into-pascal-case.js";
@@ -29,7 +23,9 @@ export const generateFile: GenerateFileType = (pathname, content, type) => {
 
   const componentProps = getExportedComponentProps(statements);
   if (componentProps === "error") {
-    vscode.window.showErrorMessage(SINGLE_EXPORT_ERROR);
+    fs.appendFile("./log-file", "SINGLE_EXPORT_ERROR", (error) => {
+      if (error) throw error;
+    });
     return;
   }
 
@@ -51,14 +47,19 @@ export const generateFile: GenerateFileType = (pathname, content, type) => {
       ? componentTemplate(templateProps)
       : hookTemplate(templateProps);
 
-  if (newFile)
+  if (newFile) {
     fs.writeFile(testFilePath, newFile, { flag: "wx" }, (error) => {
       if (error?.errno === -17) {
-        vscode.window.showErrorMessage(FILE_EXISTS_ERROR);
+        fs.appendFile("./log-file", "FILE_EXISTS_ERROR", (error) => {
+          if (error) throw error;
+        });
       } else if (error) {
-        vscode.window.showErrorMessage(error?.message);
+        throw error;
       } else {
-        vscode.window.showInformationMessage(SUCCESS_MESSAGE);
+        fs.appendFile("./log-file", "success,", (error) => {
+          if (error) throw error;
+        });
       }
     });
+  }
 };

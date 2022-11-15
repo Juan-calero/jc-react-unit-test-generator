@@ -13,14 +13,14 @@ describe("hookTemplate", () => {
     expect(hookTemplate(DEFAULT_PROPS))
       .toStrictEqual(`import { renderHook, RenderHookResult } from '@testing-library/react-hooks';
 
-import type { MyComponentNameType } from "./my-component-path";
+import type { MyComponentNameType } from './my-component-path';
 mockImports
 
 const DEFAULT_PROPS: Parameters<MyComponentNameType>[0] = {
   mockProps: undefined,
 };
 
-describe("MyComponentName", () => {
+describe('MyComponentName', () => {
   let triggerHook: (
     props?: Partial<Parameters<MyComponentNameType>[0]>
   ) => RenderHookResult<
@@ -29,7 +29,7 @@ describe("MyComponentName", () => {
   >;
 
   beforeEach(async () => {
-    const { myComponentName } = await import("./my-component-path");
+    const { myComponentName } = await import('./my-component-path');
     triggerHook = (props) =>
       renderHook(() => myComponentName({ ...DEFAULT_PROPS, ...props }));
   });
@@ -37,9 +37,9 @@ describe("MyComponentName", () => {
   afterEach(jest.clearAllMocks);
 
   it.each\`
-    callback      | mockCallback    | expectedResult
-    \${"mockedToComponent"} | \${mockmockedToComponent} | \${{}}
-  \`("$callback", ({ mockCallback, expectedResult }) => {
+    callback               | mockCallback             | expectedResult
+    \${'mockedToComponent'} | \${mockmockedToComponent} | \${{}}
+  \`('$callback', ({ mockCallback, expectedResult }) => {
     triggerHook();
     expect(mockCallback).toBeCalledTimes(1);
     expect(mockCallback).toBeCalledWith(expectedResult);
