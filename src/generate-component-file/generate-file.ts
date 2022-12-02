@@ -20,7 +20,6 @@ export type GenerateFileType = (
 export const generateFile: GenerateFileType = (pathname, content, type) => {
   const statements = getStatements(content);
   const { testFilePath, path } = getFilePath(pathname);
-
   const componentProps = getExportedComponentProps(statements);
   if (componentProps === "error") {
     fs.appendFile("./log-file", "SINGLE_EXPORT_ERROR", (error) => {
@@ -35,6 +34,7 @@ export const generateFile: GenerateFileType = (pathname, content, type) => {
   const componentName = convertIntoPascalCase(path);
 
   const templateProps = {
+    content,
     componentName,
     path,
     props: componentProps,

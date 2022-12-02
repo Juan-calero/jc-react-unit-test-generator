@@ -6,7 +6,7 @@ export const getExportedComponentProps: GetExportedComponentPropsType = (
   statements
 ) => {
   const componentExport = statements.filter((line) =>
-    line.match(/^export const (([A-Z][a-z])|(use)).*/g)
+    line.match(/^export const (([A-Z][a-z])|(use[A-Z])).*/g)
   );
 
   if (!componentExport[0] || componentExport[1]) return "error";

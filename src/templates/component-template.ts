@@ -1,4 +1,7 @@
+import { generateDefaultProps } from "../generate-default-props/generate-default-props";
+
 export type TemplateType = (props: {
+  content: string;
   componentName: string;
   path: string;
   props: string[];
@@ -7,12 +10,15 @@ export type TemplateType = (props: {
 }) => string;
 
 export const componentTemplate: TemplateType = ({
+  content,
   componentName,
   path,
   props,
   mockedImports,
   firstImportName,
 }) => {
+  const defaultProps = generateDefaultProps({ componentName, props, content });
+
   const describeArg1Spacing = " ".repeat(firstImportName.length - 3);
   const describeArg2Spacing = " ".repeat(firstImportName.length - 5);
 
@@ -23,20 +29,15 @@ import type { RenderResult } from '@testing-library/react';
 import type { ${componentName}Type } from './${path}';
 ${mockedImports}
 
-const DEFAULT_PROPS: ${componentName}Type = {${props
-    .map((prop) =>
-      prop.includes("}") ? `\n  ${prop},` : `\n  ${prop}: undefined,`
-    )
-    .join("")}
-};
-
-describe('${componentName}', () => {
+${props.length ? defaultProps : ""}describe('${componentName}', () => {
   let renderComponent: (props?: Partial<${componentName}Type>) => RenderResult;
 
   beforeEach(async () => {
     const { ${componentName} } = await import('./${path}');
-    renderComponent = (props) =>
-      render(<${componentName} {...DEFAULT_PROPS} {...props} />);
+    renderComponent = (${props.length ? "props" : ""}) =>
+      render(<${componentName} ${
+    props.length ? "{...DEFAULT_PROPS} {...props}" : ""
+  } />);
   });
 
   afterEach(jest.clearAllMocks);

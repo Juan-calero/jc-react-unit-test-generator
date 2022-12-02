@@ -20,7 +20,7 @@ export const app: AppType = (pathname) => {
 
   try {
     const data = fs.readFileSync(pathname, "utf-8");
-    const fileType = pathname.match(/\/use/gi) ? "hook" : "component";
+    const fileType = pathname.match(/\/use-/gi) ? "hook" : "component";
     generateFile(pathname, data, fileType);
   } catch (err) {
     throw err;
