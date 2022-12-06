@@ -1,9 +1,24 @@
 import { GenerateDefaultPropsType } from "../../src/generate-default-props/generate-default-props";
 
-const mockGetDefaultPropsTypes = jest.fn(() => "mockGetDefaultPropsTypes");
-jest.mock("../../src/generate-default-props/get-default-props-types", () => ({
-  getDefaultPropsTypes: mockGetDefaultPropsTypes,
+const mockConvertToPascalCase = jest.fn(() => "mockConvertToPascalCase");
+jest.mock("../../src/utils/convert-into-pascal-case", () => ({
+  convertToPascalCase: mockConvertToPascalCase,
 }));
+
+const mockFormatPropTypePairs = jest.fn(() => "mockFormatPropTypePairs");
+jest.mock("../../src/generate-default-props/format-prop-type-pairs", () => ({
+  formatPropTypePairs: mockFormatPropTypePairs,
+}));
+
+const mockGetExportedComponentTypes = jest.fn(() => [
+  "getExportedComponentTypes",
+]);
+jest.mock(
+  "../../src/generate-default-props/get-exported-component-types",
+  () => ({
+    getExportedComponentTypes: mockGetExportedComponentTypes,
+  })
+);
 
 const DEFAULT_PROPS = {
   componentName: "MyMockedComponentName",
@@ -30,19 +45,20 @@ describe("generateDefaultProps", () => {
     const result = triggerCallback();
 
     expect(result).toStrictEqual(
-      "const DEFAULT_PROPS: MyMockedComponentNameType = {mockGetDefaultPropsTypes\n};\n\n"
+      "const DEFAULT_PROPS: mockConvertToPascalCaseType = {mockFormatPropTypePairs\n};\n\n"
     );
   });
 
-  describe("getDefaultPropsTypes", () => {
+  describe.each`
+    component                      | mockComponent                    | expectedProps
+    ${"getExportedComponentTypes"} | ${mockGetExportedComponentTypes} | ${{ componentName: "mockConvertToPascalCase", content: "mockContent" }}
+    ${"convertToPascalCase"}       | ${mockConvertToPascalCase}       | ${"MyMockedComponentName"}
+    ${"formatPropTypePairs"}       | ${mockFormatPropTypePairs}       | ${{ defaultPropTypes: ["getExportedComponentTypes"], props: DEFAULT_PROPS["props"] }}
+  `("$component", ({ mockComponent, expectedProps }) => {
     it("renders with correct params", () => {
       triggerCallback();
-
-      expect(mockGetDefaultPropsTypes).toBeCalledTimes(1);
-      expect(mockGetDefaultPropsTypes).toBeCalledWith({
-        content: "mockContent",
-        props: ["mockProp1", "mockProp2"],
-      });
+      expect(mockComponent).toBeCalledTimes(1);
+      expect(mockComponent).toBeCalledWith(expectedProps);
     });
   });
 });

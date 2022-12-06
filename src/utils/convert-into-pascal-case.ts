@@ -1,6 +1,6 @@
-export type convertIntoPascalCaseType = (kebabCaseString: string) => string;
+export type convertToPascalCaseType = (kebabCaseString: string) => string;
 
-export const convertIntoPascalCase: convertIntoPascalCaseType = (
+export const convertToPascalCase: convertToPascalCaseType = (
   kebabCaseString
 ) => {
   const normalizedString =

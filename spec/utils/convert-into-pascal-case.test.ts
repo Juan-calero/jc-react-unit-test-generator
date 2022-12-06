@@ -1,8 +1,8 @@
 import "jest";
 
-import { convertIntoPascalCase } from "../../src/utils/convert-into-pascal-case";
+import { convertToPascalCase } from "../../src/utils/convert-into-pascal-case";
 
-describe("convertIntoPascalCase", () => {
+describe("convertToPascalCase", () => {
   describe("Converts Correctly:", () => {
     it.each`
       kebabCaseString                                           | expectedResult
@@ -17,7 +17,7 @@ describe("convertIntoPascalCase", () => {
     `(
       "$expectedResult from $kebabCaseString",
       ({ kebabCaseString, expectedResult }) => {
-        expect(convertIntoPascalCase(kebabCaseString)).toStrictEqual(
+        expect(convertToPascalCase(kebabCaseString)).toStrictEqual(
           expectedResult
         );
       }

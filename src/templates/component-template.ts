@@ -17,7 +17,9 @@ export const componentTemplate: TemplateType = ({
   mockedImports,
   firstImportName,
 }) => {
-  const defaultProps = generateDefaultProps({ componentName, props, content });
+  const defaultProps = props.length
+    ? generateDefaultProps({ componentName, props, content })
+    : "";
 
   const describeArg1Spacing = " ".repeat(firstImportName.length - 3);
   const describeArg2Spacing = " ".repeat(firstImportName.length - 5);
@@ -29,7 +31,7 @@ import type { RenderResult } from '@testing-library/react';
 import type { ${componentName}Type } from './${path}';
 ${mockedImports}
 
-${props.length ? defaultProps : ""}describe('${componentName}', () => {
+${defaultProps}describe('${componentName}', () => {
   let renderComponent: (props?: Partial<${componentName}Type>) => RenderResult;
 
   beforeEach(async () => {
