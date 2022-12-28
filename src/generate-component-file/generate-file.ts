@@ -9,7 +9,7 @@ import {
 import { hookTemplate } from "../templates/hook-template.js";
 
 import { generateMockedImports } from "../generate-mock-imports/generate-mocked-imports.js";
-import { convertToPascalCase } from "../utils/convert-into-pascal-case.js";
+import { getReturnedComponents } from "../get-returned-components/get-returned-components.js";
 
 export type GenerateFileType = (
   pathname: string,
@@ -28,18 +28,21 @@ export const generateFile: GenerateFileType = (pathname, content, type) => {
     return;
   }
 
+  // gets the returned components
+  const returnComponents = getReturnedComponents(content);
+
   // mocks the imports
-  const mockImports = generateMockedImports(statements);
-  if (!mockImports.mockedImports || !mockImports.firstImportName) return;
-  const componentName = convertToPascalCase(path);
+  const { mockedImports, firstImportName } = generateMockedImports(
+    statements,
+    returnComponents
+  );
 
   const templateProps = {
     content,
-    componentName,
     path,
     props: componentProps,
-    mockedImports: mockImports.mockedImports,
-    firstImportName: mockImports.firstImportName,
+    mockedImports,
+    firstImportName,
   };
 
   const newFile =

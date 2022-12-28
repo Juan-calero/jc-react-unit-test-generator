@@ -1,28 +1,27 @@
+import { generateDefaultProps } from "../default-props";
+import { generateHookHeaderImports } from "../header-imports/generate-hook-header-imports";
+import { convertToPascalCase } from "../utils/convert-into-pascal-case";
 import type { TemplateType } from "./component-template";
 
 export const hookTemplate: TemplateType = ({
-  componentName,
-  path,
-  mockedImports,
+  content,
   firstImportName,
+  mockedImports,
+  path,
   props,
 }) => {
+  const componentName = convertToPascalCase(path);
   const hookName = componentName.replace(/^[A-Z]/, (x) => x.toLowerCase());
+
+  const defaultProps = generateDefaultProps({ componentName, props, content });
+  const headerImports = generateHookHeaderImports({ componentName, path });
+
   const itArg1Spacing = " ".repeat(firstImportName.length - 2);
   const itArg2Spacing = " ".repeat(firstImportName.length - 4);
 
-  return `import { renderHook, RenderHookResult } from '@testing-library/react-hooks';
-
-import type { ${componentName}Type } from './${path}';
+  return `${headerImports}
 ${mockedImports}
-
-const DEFAULT_PROPS: Parameters<${componentName}Type>[0] = {${props
-    .map((prop) =>
-      prop.includes("}") ? `\n  ${prop},` : `\n  ${prop}: undefined,`
-    )
-    .join("")}
-};
-
+${defaultProps}
 describe('${componentName}', () => {
   let triggerHook: (
     props?: Partial<Parameters<${componentName}Type>[0]>

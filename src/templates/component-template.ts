@@ -1,8 +1,9 @@
-import { generateDefaultProps } from "../generate-default-props/generate-default-props";
+import { generateDefaultProps } from "../default-props/generate-default-props";
+import { convertToPascalCase } from "../utils/convert-into-pascal-case";
+import { generateComponentHeaderImports } from "../header-imports/generate-component-header-imports";
 
 export type TemplateType = (props: {
   content: string;
-  componentName: string;
   path: string;
   props: string[];
   mockedImports: string;
@@ -11,27 +12,23 @@ export type TemplateType = (props: {
 
 export const componentTemplate: TemplateType = ({
   content,
-  componentName,
   path,
   props,
   mockedImports,
   firstImportName,
 }) => {
-  const defaultProps = props.length
-    ? generateDefaultProps({ componentName, props, content })
-    : "";
+  const componentName = convertToPascalCase(path);
+
+  const defaultProps = generateDefaultProps({ componentName, props, content });
+  const headerImports = generateComponentHeaderImports({ componentName, path });
 
   const describeArg1Spacing = " ".repeat(firstImportName.length - 3);
   const describeArg2Spacing = " ".repeat(firstImportName.length - 5);
 
-  return `import React from 'react';
-import { render } from '@testing-library/react';
-import type { RenderResult } from '@testing-library/react';
-
-import type { ${componentName}Type } from './${path}';
+  return `${headerImports}
 ${mockedImports}
-
-${defaultProps}describe('${componentName}', () => {
+${defaultProps}
+describe('${componentName}', () => {
   let renderComponent: (props?: Partial<${componentName}Type>) => RenderResult;
 
   beforeEach(async () => {

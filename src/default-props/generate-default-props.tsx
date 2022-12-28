@@ -13,6 +13,8 @@ export const generateDefaultProps: GenerateDefaultPropsType = ({
   content,
   props,
 }) => {
+  if (!props.length) return "";
+
   const pascalComponentName = convertToPascalCase(componentName);
 
   const defaultPropTypes = getExportedComponentTypes({
@@ -23,8 +25,7 @@ export const generateDefaultProps: GenerateDefaultPropsType = ({
   // returns formatted and normalized "prop: type" pairs
   const defaultProps = formatPropTypePairs({ defaultPropTypes, props });
 
-  return `const DEFAULT_PROPS: ${pascalComponentName}Type = {${defaultProps}
+  return `\nconst DEFAULT_PROPS: ${pascalComponentName}Type = {${defaultProps}
 };
-
 `;
 };
